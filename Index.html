@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Happy Birthday, Ifeoluwa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Karla:wght@400;500;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FDF6EF;
+    --paper:#FFFDF9;
+    --ink:#3A2230;
+    --ink-soft:#6B4A56;
+    --rose:#B23A5C;
+    --rose-deep:#7A2142;
+    --berry:#93294C;
+    --gold:#DDA84A;
+    --gold-soft:#F1D9A6;
+    --blush:#F6DEE2;
+    --blush-deep:#EFC3CD;
+    --shadow: rgba(122, 33, 66, 0.20);
+    --line: rgba(122,33,66,0.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    font-family:'Karla', sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 15% 10%, rgba(221,168,74,0.18), transparent 40%),
+      radial-gradient(circle at 85% 15%, rgba(178,58,92,0.16), transparent 45%),
+      radial-gradient(circle at 50% 100%, rgba(239,195,205,0.5), transparent 55%),
+      var(--cream);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 16px;
+    overflow-x:hidden;
+  }
+  #app{
+    position:relative;
+    width:100%;
+    max-width:460px;
+    min-height:78vh;
+  }
+  .stage{
+    display:none;
+    background:var(--paper);
+    border-radius:26px;
+    box-shadow:0 30px 60px -20px var(--shadow), 0 2px 8px rgba(122,33,66,0.08);
+    padding:38px 30px 32px;
+    position:relative;
+    overflow:hidden;
+    min-height:78vh;
+    flex-direction:column;
+  }
+  .stage.active{display:flex;animation:riseIn .7s cubic-bezier(.2,.8,.2,1);}
+  @keyframes riseIn{
+    from{opacity:0; transform:translateY(18px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .stage::before{
+    content:"";
+    position:absolute;
+    top:-40px; right:-40px;
+    width:150px;height:150px;
+    background:radial-gradient(circle, rgba(221,168,74,0.25), transparent 70%);
+    border-radius:50%;
+    pointer-events:none;
+  }
+ 
+  /* progress dots */
+  .progress{
+    display:flex;
+    gap:7px;
+    justify-content:center;
+    margin-bottom:22px;
+  }
+  .progress span{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--line);
+    transition:all .3s ease;
+  }
+  .progress span.done{background:var(--gold);}
+  .progress span.current{background:var(--rose); width:20px; border-radius:5px;}
+ 
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    margin:0 0 6px;
+    color:var(--rose-deep);
+    line-height:1.15;
+    font-weight:600;
+  }
+  .eyebrow{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    color:var(--ink-soft);
+    font-size:0.95rem;
+    margin-bottom:4px;
+    letter-spacing:0.01em;
+  }
+  p{line-height:1.6; color:var(--ink-soft); font-size:0.98rem;}
+  .center{text-align:center;}
+  .grow{flex:1; display:flex; flex-direction:column;}
+  .spacer{flex:1;}
+ 
+  button, .btn{
+    font-family:'Karla', sans-serif;
+    font-weight:700;
+    font-size:0.95rem;
+    border:none;
+    border-radius:999px;
+    padding:15px 22px;
+    cursor:pointer;
+    transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    width:100%;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg, var(--rose), var(--berry));
+    color:#fff;
+    box-shadow:0 12px 24px -8px rgba(147,41,76,0.55);
+  }
+  .btn-primary:active{transform:scale(0.97);}
+  .btn-primary:hover{box-shadow:0 16px 30px -8px rgba(147,41,76,0.65);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--rose-deep);
+    border:1.5px solid var(--blush-deep);
+  }
+  .btn-ghost:hover{background:var(--blush);}
+  .btn-row{display:flex; flex-direction:column; gap:10px; margin-top:16px;}
+  .btn:disabled{opacity:0.4; cursor:not-allowed;}
+ 
+  /* ---------- Cake stage ---------- */
+  .cake-scene{
+    position:relative;
+    height:230px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    margin:10px 0 8px;
+  }
+  .cake{position:relative; width:170px;}
+  .tier{
+    background:linear-gradient(180deg, #FFF3E4, #F8DFC0);
+    border:2px solid #F0C989;
+    border-radius:10px;
+    margin:0 auto -4px;
+    position:relative;
+  }
+  .tier::after{
+    content:"";
+    position:absolute; left:0; right:0; top:8px;
+    height:4px;
+    background:repeating-linear-gradient(90deg, var(--rose) 0 10px, transparent 10px 20px);
+    opacity:0.5;
+  }
+  .tier1{width:170px;height:44px;}
+  .tier2{width:135px;height:40px;}
+  .tier3{width:100px;height:36px;}
+  .candle{
+    position:absolute; top:-34px;
+    width:6px;height:30px;
+    background:repeating-linear-gradient(180deg, var(--rose), var(--rose) 6px, #fff 6px 12px);
+    border-radius:3px;
+    opacity:0; transform:translateY(6px);
+    transition:all .5s ease;
+  }
+  .candle.show{opacity:1; transform:translateY(0);}
+  .flame{
+    position:absolute; top:-14px; left:50%; transform:translateX(-50%) scale(0);
+    width:10px;height:14px;
+    background:radial-gradient(circle at 50% 70%, #FFE9A8, var(--gold) 60%, transparent 75%);
+    border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+    transition:transform .3s ease;
+  }
+  .flame.lit{animation:flicker 1s ease-in-out infinite;}
+  @keyframes flicker{
+    0%,100%{transform:translateX(-50%) scale(1);}
+    50%{transform:translateX(-50%) scale(1.15) rotate(3deg);}
+  }
+  .balloon{
+    position:absolute;
+    width:26px;height:32px;
+    border-radius:50% 50% 50% 50% / 55% 55% 45% 45%;
+    opacity:0; transform:translateY(14px);
+    transition:all .5s ease;
+  }
+  .balloon.show{opacity:1; transform:translateY(0);}
+  .balloon::after{
+    content:"";
+    position:absolute; bottom:-18px; left:50%;
+    width:1px; height:18px;
+    background:rgba(122,33,66,0.35);
+  }
+  .cake-message{
+    text-align:center;
+    min-height:44px;
+    margin-top:6px;
+  }
+  .cake-message .msg{
+    font-family:'Fraunces', serif;
+    color:var(--rose-deep);
+    font-weight:600;
+    font-size:1.05rem;
+    opacity:0;
+    transition:opacity .5s ease;
+  }
+  .cake-message .msg.show{opacity:1;}
+ 
+  /* ---------- Puzzle stage ---------- */
+  .puzzle-preview{
+    display:flex; flex-direction:column; align-items:center;
+    margin:6px 0 14px;
+  }
+  .puzzle-preview img{
+    width:150px; height:150px;
+    object-fit:cover;
+    border-radius:14px;
+    border:4px solid #fff;
+    box-shadow:0 10px 22px -6px var(--shadow);
+  }
+  .puzzle-preview-missing{
+    width:150px; height:150px;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    font-size:0.75rem;
+    color:var(--ink-soft);
+    background:var(--blush);
+    border-radius:14px;
+    border:4px solid #fff;
+    box-shadow:0 10px 22px -6px var(--shadow);
+    padding:8px;
+  }
+  .puzzle-preview .label{
+    font-size:0.65rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--ink-soft);
+    margin-top:5px;
+  }
+  .puzzle-stats{
+    display:flex; justify-content:center; gap:10px;
+    margin-bottom:14px;
+  }
+  .stat-chip{
+    background:var(--blush);
+    border-radius:12px;
+    padding:8px 16px;
+    text-align:center;
+    min-width:80px;
+  }
+  .stat-chip .num{font-family:'Fraunces',serif; font-weight:600; color:var(--berry); font-size:1.1rem; display:block;}
+  .stat-chip .label{font-size:0.6rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft);}
+  #puzzle-board{
+    width:260px; height:260px;
+    margin:0 auto;
+    position:relative;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 10px 30px -10px var(--shadow);
+    background:var(--blush);
+  }
+  .puzzle-tile{
+    position:absolute;
+    width:calc(260px/3);
+    height:calc(260px/3);
+    background-size:260px 260px;
+    cursor:pointer;
+    transition:top .18s ease, left .18s ease, filter .2s ease;
+    border:0.5px solid rgba(255,255,255,0.4);
+  }
+  .puzzle-tile:hover{filter:brightness(1.06);}
+  .puzzle-solved-banner{
+    text-align:center; margin-top:14px;
+    font-family:'Fraunces',serif; color:var(--rose-deep); font-weight:600;
+    opacity:0; transition:opacity .5s ease;
+  }
+  .puzzle-solved-banner.show{opacity:1;}
+ 
+  /* ---------- Memories stage ---------- */
+  .memory-card{
+    background:var(--blush);
+    border-radius:20px;
+    padding:20px;
+    text-align:center;
+    min-height:340px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    position:relative;
+    perspective:1200px;
+  }
+  .memory-inner{
+    width:100%;
+    transition:transform .6s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+    position:relative;
+    min-height:300px;
+  }
+  .memory-inner.flipped{transform:rotateY(180deg);}
+  .memory-face{
+    position:absolute; inset:0;
+    backface-visibility:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:10px;
+  }
+  .memory-face.back{transform:rotateY(180deg);}
+  .memory-photo{
+    width:150px;height:190px;
+    object-fit:cover;
+    border-radius:6px;
+    border:8px solid #fff;
+    box-shadow:0 12px 24px -8px var(--shadow);
+    transform:rotate(-3deg);
+    margin-bottom:10px;
+  }
+  .memory-icon{
+    font-size:2.6rem;
+    margin-bottom:10px;
+  }
+  .memory-face .cap{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:0.85rem;
+  }
+  .memory-face h3{margin-bottom:2px;}
+  .memory-face p{font-size:0.9rem;}
+  .tap-hint{font-size:0.72rem; color:var(--ink-soft); opacity:0.7; margin-top:8px;}
+  .memory-nav{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:14px;
+  }
+  .nav-arrow{
+    width:38px;height:38px;
+    border-radius:50%;
+    border:1.5px solid var(--blush-deep);
+    background:#fff;
+    color:var(--rose-deep);
+    font-size:1.1rem;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .nav-arrow:disabled{opacity:0.3; cursor:not-allowed;}
+  .memory-dots{display:flex; gap:6px;}
+  .memory-dots span{width:6px;height:6px;border-radius:50%; background:var(--line);}
+  .memory-dots span.active{background:var(--rose);}
+ 
+  /* ---------- Letter stage ---------- */
+  .letter-paper{
+    background:
+      repeating-linear-gradient(var(--paper) 0 27px, rgba(122,33,66,0.08) 27px 28px);
+    border-radius:14px;
+    padding:26px 20px 20px;
+    box-shadow:inset 0 0 0 1px rgba(122,33,66,0.08);
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+  }
+  .letter-paper::before{
+    content:"";
+    position:absolute; left:34px; top:0; bottom:0; width:1px;
+    background:rgba(178,58,92,0.18);
+  }
+  .letter-body{
+    font-family:'Caveat', cursive;
+    font-size:1.5rem;
+    line-height:1.55;
+    color:var(--ink);
+    white-space:pre-wrap;
+    flex:1;
+    padding-left:14px;
+  }
+  .letter-body .hl{
+    color:var(--berry);
+    font-weight:700;
+  }
+  .letter-sign{
+    text-align:right;
+    font-family:'Caveat', cursive;
+    font-size:1.6rem;
+    color:var(--rose-deep);
+    margin-top:6px;
+    padding-left:14px;
+  }
+  .cursor-blink{
+    display:inline-block; width:2px; background:var(--berry);
+    animation:blink 0.9s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+ 
+  /* ---------- Wishes stage ---------- */
+  .wish-mascot{text-align:center; font-size:3rem; margin-bottom:2px;}
+  .wish-list{display:flex; flex-direction:column; gap:9px; margin:16px 0;}
+  .wish-item{
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .wish-item summary{
+    list-style:none;
+    padding:14px 16px;
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    color:var(--rose-deep);
+    cursor:pointer;
+    display:flex; align-items:center; gap:10px;
+    background:var(--paper);
+  }
+  .wish-item summary::-webkit-details-marker{display:none;}
+  .wish-item summary::after{
+    content:"+";
+    margin-left:auto;
+    font-size:1.1rem;
+    color:var(--ink-soft);
+    transition:transform .2s ease;
+  }
+  .wish-item[open] summary::after{transform:rotate(45deg);}
+  .wish-item p{padding:0 16px 16px; margin:0; font-size:0.9rem;}
+  .wish-item:nth-child(1){background:#FBEAEE;}
+  .wish-item:nth-child(2){background:#FFF3E2;}
+  .wish-item:nth-child(3){background:#EAF3EC;}
+  .wish-item:nth-child(4){background:#FFF6DC;}
+  .wish-item:nth-child(5){background:#F4EAF7;}
+ 
+  .hug-scene{text-align:center; margin-top:auto; padding-top:8px;}
+  .hug-emoji{font-size:2.4rem; display:inline-block;}
+  .final-msg{
+    text-align:center; margin-top:14px;
+    opacity:0; transition:opacity .6s ease;
+  }
+  .final-msg.show{opacity:1;}
+  .final-msg h2{margin-bottom:6px;}
+ 
+  /* confetti canvas */
+  #confetti-canvas{
+    position:fixed; inset:0; pointer-events:none; z-index:50;
+  }
+ 
+  @media (max-width:400px){
+    .stage{padding:30px 20px 26px;}
+    #puzzle-board{width:220px; height:220px;}
+    .puzzle-tile{width:calc(220px/3); height:calc(220px/3); background-size:220px 220px;}
+  }
+ 
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+ 
+<canvas id="confetti-canvas"></canvas>
+ 
+<div id="app">
+ 
+  <!-- STAGE 1: CAKE -->
+  <section class="stage active" id="stage-cake">
+    <div class="progress">
+      <span class="current"></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="eyebrow center">a little surprise for you</div>
+    <h2 class="center">Decorate Your Cake 🎂</h2>
+    <p class="center" id="cake-subtext">Every good birthday starts with a cake made just right.</p>
+ 
+    <div class="cake-scene">
+      <div class="cake" id="cake">
+        <div class="tier tier3" id="tier3">
+          <div class="candle" id="candle1" style="left:12px;"><div class="flame" id="flame1"></div></div>
+          <div class="candle" id="candle2" style="left:47px;"><div class="flame" id="flame2"></div></div>
+          <div class="candle" id="candle3" style="right:12px;"><div class="flame" id="flame3"></div></div>
+        </div>
+        <div class="tier tier2" id="tier2"></div>
+        <div class="tier tier1" id="tier1"></div>
+        <div class="balloon" id="balloon1" style="left:-30px; top:-50px; background:#E8879C;"></div>
+        <div class="balloon" id="balloon2" style="right:-30px; top:-60px; background:#9AC7B5;"></div>
+        <div class="balloon" id="balloon3" style="left:-4px; top:-90px; background:#E7B75F;"></div>
+      </div>
+    </div>
+ 
+    <div class="cake-message">
+      <div class="msg" id="cake-msg">Happy Birthday, Cutiepie! 🎉</div>
+    </div>
+ 
+    <div class="spacer"></div>
+    <div id="cake-controls" class="btn-row">
+      <button class="btn btn-primary" id="btn-cake-step">Add Candles</button>
+    </div>
+    <div class="btn-row" id="cake-final-controls" style="display:none;">
+      <button class="btn btn-primary" id="btn-cake-puzzle">🧩 Solve the Puzzle</button>
+    </div>
+  </section>
+ 
+  <!-- STAGE 2: PUZZLE -->
+  <section class="stage" id="stage-puzzle">
+    <div class="progress">
+      <span class="done"></span><span class="current"></span><span></span><span></span><span></span>
+    </div>
+    <div class="eyebrow center">a piece of you</div>
+    <h2 class="center">Birthday Puzzle 🧩</h2>
+    <p class="center">Solve the puzzle to unlock your next birthday surprise.</p>
+ 
+    <div class="puzzle-preview">
+      <img src="asset/Snapchat-438413121.jpg" alt="Complete picture" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'puzzle-preview-missing',textContent:'🖼️ add assets/puzzle.jpg'}))">
+      <span class="label">this is what you're piecing together</span>
+    </div>
+ 
+    <div class="puzzle-stats">
+      <div class="stat-chip"><span class="num" id="puzzle-moves">0</span><span class="label">Moves</span></div>
+      <div class="stat-chip"><span class="num" id="puzzle-timer">0:00</span><span class="label">Time</span></div>
+    </div>
+ 
+    <div id="puzzle-board"></div>
+ 
+    <div class="puzzle-solved-banner" id="puzzle-solved-banner">You found her 💗 — puzzle solved!</div>
+ 
+    <div class="spacer"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="btn-puzzle-shuffle">↻ Shuffle Again</button>
+      <button class="btn btn-primary" id="btn-puzzle-continue">Continue</button>
+    </div>
+  </section>
+ 
+  <!-- STAGE 3: MEMORIES -->
+  <section class="stage" id="stage-memories">
+    <div class="progress">
+      <span class="done"></span><span class="done"></span><span class="current"></span><span></span><span></span>
+    </div>
+    <div class="eyebrow center">✿ Her cute images and videos</div>
+    <h2 class="center">Her cute images and videos</h2>
+ 
+    <div class="memory-card">
+      <div class="memory-inner" id="memory-inner">
+        <!-- faces injected by JS -->
+      </div>
+    </div>
+    <div class="tap-hint center">swipe to explore &middot; tap to flip</div>
+ 
+    <div class="memory-nav">
+      <button class="nav-arrow" id="mem-prev">&#8592;</button>
+      <div class="memory-dots" id="memory-dots"></div>
+      <button class="nav-arrow" id="mem-next">&#8594;</button>
+    </div>
+ 
+    <div class="spacer"></div>
+    <button class="btn btn-primary" id="btn-read-letter">💌 Read Your Letter</button>
+  </section>
+ 
+  <!-- STAGE 4: LETTER -->
+  <section class="stage" id="stage-letter">
+    <div class="progress">
+      <span class="done"></span><span class="done"></span><span class="done"></span><span class="current"></span><span></span>
+    </div>
+    <div class="eyebrow center">with all my love</div>
+    <h2 class="center" style="margin-bottom:14px;">A Letter For You</h2>
+    <div class="letter-paper">
+      <div class="letter-body" id="letter-text"></div>
+      <div class="letter-sign" id="letter-sign" style="opacity:0;">&mdash; always yours</div>
+    </div>
+    <div class="btn-row" style="margin-top:16px;">
+      <button class="btn btn-primary" id="btn-letter-continue">Continue</button>
+    </div>
+  </section>
+ 
+  <!-- STAGE 5: WISHES / CELEBRATION -->
+  <section class="stage" id="stage-wishes">
+    <div class="progress">
+      <span class="done"></span><span class="done"></span><span class="done"></span><span class="done"></span><span class="current"></span>
+    </div>
+    <div class="wish-mascot">🐻🎂</div>
+    <h1 class="center">Happy Birthday,<br>Cutiepie</h1>
+    <p class="center">Today is all about you, my love.</p>
+ 
+    <div class="wish-list">
+      <details class="wish-item">
+        <summary>💗 A wish from my heart</summary>
+        <p>May this year bring you everything you've quietly been hoping for &mdash; the kind of joy that fills up the little moments, not just the big ones.</p>
+      </details>
+      <details class="wish-item">
+        <summary>✨ For all your dreams</summary>
+        <p>Whatever you're reaching for, I hope it meets you halfway. You deserve every bit of it.</p>
+      </details>
+      <details class="wish-item">
+        <summary>🌿 For your peace and happiness</summary>
+        <p>May your days feel lighter, your heart feel fuller, and your mind finally get some rest.</p>
+      </details>
+      <details class="wish-item">
+        <summary>🔥 For your strength and success</summary>
+        <p>You carry more than people realize, and you still manage to shine. Keep going &mdash; it's working.</p>
+      </details>
+      <details class="wish-item">
+        <summary>💌 From me, with everything I have</summary>
+        <p>Thank you for being exactly who you are. I don't say it enough, but I mean it more than you know.</p>
+      </details>
+    </div>
+ 
+    <div class="spacer"></div>
+    <div class="hug-scene">
+      <div id="hug-pre">
+        <button class="btn btn-primary" id="btn-hug">🤗 Send Me a Hug</button>
+      </div>
+      <div class="final-msg" id="final-msg">
+        <div class="hug-emoji">🤗💕</div>
+        <h2>Hug Received, Cutiepie!</h2>
+        <p>This is all the way from me to you. Happy birthday, my love &mdash; here's to many more.</p>
+      </div>
+    </div>
+  </section>
+ 
+</div>
+ 
+<script>
+/* ---------------- CONFIG ---------------- */
+const PUZZLE_IMG = "asset/Snapchat-438413121.jpg";
+ 
+/* ---------------- STAGE NAV ---------------- */
+const stageOrder = ['stage-cake','stage-puzzle','stage-memories','stage-letter','stage-wishes'];
+function goToStage(id){
+  stageOrder.forEach(s=>{
+    document.getElementById(s).classList.toggle('active', s===id);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function pad(n){return String(n).padStart(2,'0');}
+ 
+/* ---------------- CAKE ---------------- */
+let cakeStep = 0;
+const cakeBtn = document.getElementById('btn-cake-step');
+const cakeSteps = [
+  {label:'Add Candles', action: ()=>{ document.querySelectorAll('.candle').forEach(c=>c.classList.add('show')); }},
+  {label:'Add Balloons', action: ()=>{ document.querySelectorAll('.balloon').forEach(b=>b.classList.add('show')); }},
+  {label:'Light the Candles', action: ()=>{ document.querySelectorAll('.flame').forEach(f=>f.classList.add('lit')); document.querySelectorAll('.flame').forEach(f=>f.style.transform='translateX(-50%) scale(1)'); }},
+  {label:'Celebrate! 🎉', action: ()=>{
+      document.getElementById('cake-msg').classList.add('show');
+      document.getElementById('cake-subtext').textContent = "You did it — she's going to love this.";
+      launchConfetti();
+      document.getElementById('cake-controls').style.display='none';
+      document.getElementById('cake-final-controls').style.display='flex';
+    }}
+];
+cakeBtn.addEventListener('click', ()=>{
+  cakeSteps[cakeStep].action();
+  cakeStep++;
+  if(cakeStep < cakeSteps.length){
+    cakeBtn.textContent = cakeSteps[cakeStep].label;
+  }
+});
+document.getElementById('btn-cake-puzzle').addEventListener('click', ()=>goToStage('stage-puzzle'));
+ 
+/* ---------------- PUZZLE (3x3 sliding) ---------------- */
+const board = document.getElementById('puzzle-board');
+const SIZE = 3;
+let tileSize = 260/SIZE;
+let positions = []; // positions[i] = current index of tile i (tile 8 is blank)
+let moves = 0;
+let timerInterval = null;
+let secondsElapsed = 0;
+let solved = false;
+ 
+function boardPx(){
+  return window.innerWidth <= 400 ? 220 : 260;
+}
+function updateTileSize(){
+  tileSize = boardPx() / SIZE;
+}
+function applyTileVisuals(){
+  const size = boardPx();
+  document.querySelectorAll('.puzzle-tile').forEach(tile=>{
+    const i = Number(tile.dataset.tile);
+    const row = Math.floor(i/SIZE), col = i%SIZE;
+    tile.style.backgroundSize = `${size}px ${size}px`;
+    tile.style.backgroundPosition = `-${col*tileSize}px -${row*tileSize}px`;
+  });
+}
+ 
+function buildPuzzle(){
+  updateTileSize();
+  board.innerHTML = '';
+  positions = [0,1,2,3,4,5,6,7,8]; // index = tile number, value = position
+  for(let i=0;i<9;i++){
+    if(i===8) continue; // blank
+    const tile = document.createElement('div');
+    tile.className = 'puzzle-tile';
+    tile.dataset.tile = i;
+    tile.style.backgroundImage = `url(${PUZZLE_IMG})`;
+    tile.addEventListener('click', ()=>tryMove(i));
+    board.appendChild(tile);
+  }
+  applyTileVisuals();
+  renderPositions();
+  shufflePuzzle();
+}
+ 
+function renderPositions(){
+  document.querySelectorAll('.puzzle-tile').forEach(tile=>{
+    const i = Number(tile.dataset.tile);
+    const pos = positions[i];
+    const row = Math.floor(pos/SIZE), col = pos%SIZE;
+    tile.style.top = (row*tileSize)+'px';
+    tile.style.left = (col*tileSize)+'px';
+  });
+}
+ 
+function blankPos(){
+  const filled = positions.slice(0,8);
+  for(let p=0;p<9;p++){ if(!filled.includes(p)) return p; }
+}
+ 
+function tryMove(tileIndex){
+  if(solved) return;
+  const pos = positions[tileIndex];
+  const bp = blankPos();
+  const pr = Math.floor(pos/SIZE), pc = pos%SIZE;
+  const br = Math.floor(bp/SIZE), bc = bp%SIZE;
+  const adjacent = (Math.abs(pr-br)+Math.abs(pc-bc))===1;
+  if(!adjacent) return;
+  positions[tileIndex] = bp;
+  renderPositions();
+  moves++;
+  document.getElementById('puzzle-moves').textContent = moves;
+  checkSolved();
+}
+ 
+function checkSolved(){
+  for(let i=0;i<8;i++){
+    if(positions[i] !== i) return;
+  }
+  solved = true;
+  clearInterval(timerInterval);
+  document.getElementById('puzzle-solved-banner').classList.add('show');
+  launchConfetti();
+}
+ 
+function shufflePuzzle(){
+  solved = false;
+  document.getElementById('puzzle-solved-banner').classList.remove('show');
+  moves = 0;
+  secondsElapsed = 0;
+  document.getElementById('puzzle-moves').textContent = 0;
+  document.getElementById('puzzle-timer').textContent = '0:00';
+  positions = [0,1,2,3,4,5,6,7,8];
+  // do random valid moves from solved state to guarantee solvability
+  let blank = 8;
+  for(let n=0;n<28;n++){
+    const br = Math.floor(blank/SIZE), bc = blank%SIZE;
+    const neighbors = [];
+    if(br>0) neighbors.push(blank-SIZE);
+    if(br<SIZE-1) neighbors.push(blank+SIZE);
+    if(bc>0) neighbors.push(blank-1);
+    if(bc<SIZE-1) neighbors.push(blank+1);
+    const target = neighbors[Math.floor(Math.random()*neighbors.length)];
+    // find tile currently at 'target' position and move it to blank
+    const tileAtTarget = positions.indexOf(target);
+    positions[tileAtTarget] = blank;
+    blank = target;
+  }
+  renderPositions();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(()=>{
+    secondsElapsed++;
+    const m = Math.floor(secondsElapsed/60), s = secondsElapsed%60;
+    document.getElementById('puzzle-timer').textContent = `${m}:${pad(s)}`;
+  },1000);
+}
+ 
+document.getElementById('btn-puzzle-shuffle').addEventListener('click', shufflePuzzle);
+document.getElementById('btn-puzzle-continue').addEventListener('click', ()=>goToStage('stage-memories'));
+ 
+/* ---------------- MEMORIES ---------------- */
+const memories = [
+  {type:'image', src:'asset/Snapchat-438413121.jpg', title:'Just Her', caption:'exactly as she is', text:"This is one of those photos that just looks like her — unbothered, completely herself."},
+  {type:'video', src:'asset/Snapchat-926799895.mp4', title:'Throwback', caption:'wishing you the best', text:"Celebrating my baby's birthday and wishing her heaven's best."},
+  {type:'video', src:'asset/Snapchat-1680874172.mp4', title:'Quiet Strength', caption:'more than she realizes', text:"She carries more than people notice, and still shows up for everyone else. That kind of strength is rare. Love u 💓"},
+  {type:'video', src:'asset/Snapchat-370089857.mp4', title:'Today', caption:'and all the years ahead', text:"Another year of being exactly who she is — kind, funny, and stronger than she gives herself credit for. Here's to celebrating her, today especially."}
+];
+let memIndex = 0;
+let flipped = false;
+ 
+function renderMemory(){
+  const inner = document.getElementById('memory-inner');
+  const m = memories[memIndex];
+  const frontContent = m.type === 'video'
+    ? `<video class="memory-photo" src="${m.src}" autoplay muted loop controls playsinline preload="metadata" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'memory-icon',textContent:'🎬'}))"></video><div class="cap">${m.caption}</div>`
+    : `<img class="memory-photo" src="${m.src}" alt="${m.title}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'memory-icon',textContent:'🖼️'}))"><div class="cap">${m.caption}</div>`;
+  inner.innerHTML = `
+    <div class="memory-face front">
+      ${frontContent}
+    </div>
+    <div class="memory-face back">
+      <h3>${m.title}</h3>
+      <p>${m.text}</p>
+    </div>
+  `;
+  inner.classList.remove('flipped');
+  flipped = false;
+  document.getElementById('mem-prev').disabled = memIndex===0;
+  document.getElementById('mem-next').disabled = memIndex===memories.length-1;
+  const dots = document.getElementById('memory-dots');
+  dots.innerHTML = memories.map((_,i)=>`<span class="${i===memIndex?'active':''}"></span>`).join('');
+}
+document.getElementById('memory-inner').addEventListener('click', function(){
+  flipped = !flipped;
+  this.classList.toggle('flipped', flipped);
+});
+document.getElementById('mem-prev').addEventListener('click', ()=>{ if(memIndex>0){memIndex--; renderMemory();} });
+document.getElementById('mem-next').addEventListener('click', ()=>{ if(memIndex<memories.length-1){memIndex++; renderMemory();} });
+renderMemory();
+ 
+document.getElementById('btn-read-letter').addEventListener('click', ()=>{
+  goToStage('stage-letter');
+  startLetterTypewriter();
+});
+ 
+/* ---------------- LETTER (typewriter) ---------------- */
+const letterSegments = [
+  {text:"Dear Ifeoluwa,\n\n"},
+  {text:"I've been trying to find the right words "},
+  {text:"for a while now", },
+  {text:" — not because they're hard to find, but because I wanted to actually get them right, for you.\n\n"},
+  {text:"You are "},
+  {text:"one of the good ones", },
+  {text:", the kind of friend people wish they had. Don't know if you'd remember how we started talking, if you don't i do "},
+  {text:"and I'm grateful it happened", },
+  {text:". It's been a blessing having you in my corner these past years.\n\n"},
+  {text:"Today isn't about a perfect gift. It's about making sure you know, in writing, in a way you can come back to whenever you need it: you are appreciated, exactly as you are.\n\n"},
+  {text:"Happy birthday, my friend.", },
+];
+let letterTyped = false;
+function startLetterTypewriter(){
+  if(letterTyped) return;
+  letterTyped = true;
+  const container = document.getElementById('letter-text');
+  container.innerHTML = '<span id="type-cursor" class="cursor-blink">&nbsp;</span>';
+  const cursor = document.getElementById('type-cursor');
+  let segIndex = 0, charIndex = 0;
+  function step(){
+    if(segIndex >= letterSegments.length){
+      cursor.remove();
+      document.getElementById('letter-sign').style.transition = 'opacity 1s ease';
+      document.getElementById('letter-sign').style.opacity = 1;
+      return;
+    }
+    const seg = letterSegments[segIndex];
+    if(charIndex === 0 && seg.hl){
+      const span = document.createElement('span');
+      span.className = 'hl';
+      span.id = 'active-seg';
+      container.insertBefore(span, cursor);
+    }
+    const ch = seg.text[charIndex];
+    if(seg.hl){
+      document.getElementById('active-seg').textContent += ch;
+    } else {
+      container.insertBefore(document.createTextNode(ch), cursor);
+    }
+    charIndex++;
+    if(charIndex >= seg.text.length){
+      segIndex++; charIndex = 0;
+    }
+    setTimeout(step, ch === ' ' ? 10 : 26);
+  }
+  step();
+}
+document.getElementById('btn-letter-continue').addEventListener('click', ()=>goToStage('stage-wishes'));
+ 
+/* ---------------- HUG ---------------- */
+document.getElementById('btn-hug').addEventListener('click', ()=>{
+  document.getElementById('hug-pre').style.display='none';
+  document.getElementById('final-msg').classList.add('show');
+  launchConfetti();
+});
+ 
+/* ---------------- CONFETTI ---------------- */
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+window.addEventListener('resize', ()=>{ updateTileSize(); applyTileVisuals(); renderPositions(); });
+ 
+let confettiParticles = [];
+function launchConfetti(){
+  const colors = ['#B23A5C','#DDA84A','#93294C','#F1D9A6','#EFC3CD'];
+  for(let i=0;i<80;i++){
+    confettiParticles.push({
+      x: canvas.width/2 + (Math.random()-0.5)*120,
+      y: canvas.height*0.35,
+      vx: (Math.random()-0.5)*8,
+      vy: Math.random()*-6 - 2,
+      size: Math.random()*6+4,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      rotation: Math.random()*360,
+      vr: (Math.random()-0.5)*10,
+      life: 100
+    });
+  }
+  if(!confettiRunning){ confettiRunning = true; animateConfetti(); }
+}
+let confettiRunning = false;
+function animateConfetti(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confettiParticles.forEach(p=>{
+    p.vy += 0.18;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rotation += p.vr;
+    p.life--;
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    ctx.rotate(p.rotation*Math.PI/180);
+    ctx.fillStyle = p.color;
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+    ctx.restore();
+  });
+  confettiParticles = confettiParticles.filter(p=>p.life>0 && p.y < canvas.height+40);
+  if(confettiParticles.length>0){
+    requestAnimationFrame(animateConfetti);
+  } else {
+    confettiRunning = false;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+}
+ 
+/* ---------------- INIT ---------------- */
+buildPuzzle();
+</script>
+</body>
+</html>
